@@ -325,6 +325,29 @@ namespace MapVote {
 
             var levels = runManger.levels;
 
+            // Generate "Random" Vote Option
+            VotePopup.AddElementToScrollView(parent =>
+            {
+                var btn = MenuAPI.CreateREPOButton(null, () => {
+                    if (DisableInput)
+                    {
+                        return;
+                    }
+                    OwnVoteLevel = VOTE_RANDOM_LABEL;
+                    OnVoteEvent?.RaiseEvent(VOTE_RANDOM_LABEL, NetworkingEvents.RaiseAll, SendOptions.SendReliable);
+                }, parent);
+
+                var layoutGroup = btn.AddComponent<HorizontalLayoutGroup>();
+                layoutGroup.spacing = 235f;
+
+                var votesLabel = GameObject.Instantiate(btn.labelTMP.gameObject, btn.transform);
+                var lbl = votesLabel.GetComponent<TextMeshProUGUI>();
+                lbl.horizontalAlignment = HorizontalAlignmentOptions.Right;
+
+                VoteOptionButtons.Add(new VoteOptionButton(VOTE_RANDOM_LABEL, 0, btn, true));
+                return btn.rectTransform;
+            });
+
             // Generate Vote Options from Levels
             foreach (var (level, index) in levels.Select((level, index) => (level, index)))
             {
@@ -356,29 +379,6 @@ namespace MapVote {
                     return btn.rectTransform;
                 });
             }
-
-            // Generate "Random" Vote Option
-            VotePopup.AddElementToScrollView(parent =>
-            {
-                var btn = MenuAPI.CreateREPOButton(null, () => {
-                    if (DisableInput)
-                    {
-                        return;
-                    }
-                    OwnVoteLevel = VOTE_RANDOM_LABEL;
-                    OnVoteEvent?.RaiseEvent(VOTE_RANDOM_LABEL, NetworkingEvents.RaiseAll, SendOptions.SendReliable);
-                }, parent);
-
-                var layoutGroup = btn.AddComponent<HorizontalLayoutGroup>();
-                layoutGroup.spacing = 235f;
-
-                var votesLabel = GameObject.Instantiate(btn.labelTMP.gameObject, btn.transform);
-                var lbl = votesLabel.GetComponent<TextMeshProUGUI>();
-                lbl.horizontalAlignment = HorizontalAlignmentOptions.Right;
-
-                VoteOptionButtons.Add(new VoteOptionButton(VOTE_RANDOM_LABEL, 0, btn, true));
-                return btn.rectTransform;
-            });
 
             VotePopup.AddElement(parent =>
             {

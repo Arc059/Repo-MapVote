@@ -1,3 +1,8 @@
+# Version 1.1.1
+### Changes
+- Added colored labels for some custom levels
+- Moved the "Random"-Button to the top of the list
+
 # Version 1.1.0
 ### Changes
 - Changed style of voting menu
